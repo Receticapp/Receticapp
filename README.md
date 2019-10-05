@@ -1,1 +1,1 @@
-Recetiapp
+Receticapp
