@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Receticapp",
-    "slug": "Receticapp",
+    "name": "recetiapp",
+    "slug": "recetiapp",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
