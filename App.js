@@ -33,7 +33,7 @@ render(){
             <Scene key="login" component={Login} title="Iniciar sesión" initial={true}/>
             <Scene key="register" component={Register} title="Registro" />
             <Scene key="profile" component={Profile} title="Perfil de usuario" />
-            <Scene key="recetas" component={Recetas} title="Recetas" />
+            <Scene key="recetas" component={Recetas} title="Recetas"  />
 			    </Stack>
 			 </Router>
       
