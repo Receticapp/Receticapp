@@ -1,30 +1,26 @@
 import React,{ Component } from 'react';
-import { StyleSheet, View, Alert} from 'react-native';
+import { StyleSheet, View, Alert,YellowBox} from 'react-native';
 import { Text, Button } from 'galio-framework' ;
 import { Image, SocialIcon } from 'react-native-elements';
-import firebase from 'firebase'; 
+import _ from 'lodash';
 import { Container, Item, Form, Input, Label,Root } from "native-base";
 import {Router, Stack, Scene} from 'react-native-router-flux';
 import Login from './components/Login.js'
 import Register from './components/Register'
 import Profile from './components/Profile'
 import Recetas from './components/Recetas'
+import Receta from './components/Receta'
+YellowBox.ignoreWarnings(['Setting a timer']);
 
-var firebaseConfig = {
-  apiKey: "AIzaSyDLgyR0M7Qk_rG6JiX3v7Qn5ZPSWURSIi8",
-  authDomain: "recetiapp.firebaseapp.com",
-  databaseURL: "https://recetiapp.firebaseio.com",
-  projectId: "recetiapp",
-  storageBucket: "",
-  messagingSenderId: "593389944464",
-  appId: "1:593389944464:web:4d7ddc30493d8586772215",
-  measurementId: "G-E39PNC4FC8"
+const _console = _.clone(console);
+console.warn = message => {
+    if (message.indexOf('Setting a timer')<= -1) {
+        _console.warn(message);
+    }
 };
-firebase.initializeApp(firebaseConfig);
 
 
 export default class App extends Component {
-  
 render(){
   return (
     <Root >
@@ -33,13 +29,11 @@ render(){
             <Scene key="login" component={Login} title="Iniciar sesión" initial={true}/>
             <Scene key="register" component={Register} title="Registro" />
             <Scene key="profile" component={Profile} title="Perfil de usuario" />
-            <Scene key="recetas" component={Recetas} title="Recetas" />
+            <Scene key="recetas" component={Recetas} title="Recetas"  />
+            <Scene key="receta" component={Receta} title="Receta"  />
 			    </Stack>
 			 </Router>
-      
     </Root>
-    
   );}
-
 }
 
