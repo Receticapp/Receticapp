@@ -1,62 +1,41 @@
-import { AppLoading } from 'expo';
-import { Asset } from 'expo-asset';
-import * as Font from 'expo-font';
-import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React,{ Component } from 'react';
+import { StyleSheet, View, Alert,YellowBox} from 'react-native';
+import { Text, Button } from 'galio-framework' ;
+import { Image, SocialIcon } from 'react-native-elements';
+import _ from 'lodash';
+import { Container, Item, Form, Input, Label,Root } from "native-base";
+import {Router, Stack, Scene} from 'react-native-router-flux';
+import Login from './components/Login.js'
+import Register from './components/Register'
+import Profile from './components/Profile'
+import Recetas from './components/Recetas'
+import Receta from './components/Receta'
+import Nuevareceta from './components/Nuevareceta'
+YellowBox.ignoreWarnings(['Setting a timer']);
 
-import AppNavigator from './navigation/AppNavigator';
+const _console = _.clone(console);
+console.warn = message => {
+    if (message.indexOf('Setting a timer')<= -1) {
+        _console.warn(message);
+    }
+};
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
-  } else {
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
-    );
-  }
+export default class App extends Component {
+render(){
+  return (
+    <Root >
+    <Router >
+			    <Stack key="root" hideNavBar={true}>
+            <Scene key="login" component={Login} title="Iniciar sesión" initial={true}/>
+            <Scene key="register" component={Register} title="Registro" />
+            <Scene key="profile" component={Profile} title="Perfil de usuario" hideNavBar={false} />
+            <Scene key="recetas" component={Recetas} title="Recetas" />
+            <Scene key="receta" component={Receta} title="Receta"  />
+            <Scene key="nuevareceta" component={Nuevareceta} title="Agregar Receta"  hideNavBar={false}/>
+			    </Stack>
+			 </Router>
+    </Root>
+  );}
 }
 
-async function loadResourcesAsync() {
-  await Promise.all([
-    Asset.loadAsync([
-      require('./assets/images/robot-dev.png'),
-      require('./assets/images/robot-prod.png'),
-    ]),
-    Font.loadAsync({
-      // This is the font that we are using for our tab bar
-      ...Ionicons.font,
-      // We include SpaceMono because we use it in HomeScreen.js. Feel free to
-      // remove this if you are not using it in your app
-      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-    }),
-  ]);
-}
-
-function handleLoadingError(error) {
-  // In this case, you might want to report the error to your error reporting
-  // service, for example Sentry
-  console.warn(error);
-}
-
-function handleFinishLoading(setLoadingComplete) {
-  setLoadingComplete(true);
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
