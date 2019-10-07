@@ -10,6 +10,7 @@ import Register from './components/Register'
 import Profile from './components/Profile'
 import Recetas from './components/Recetas'
 import Receta from './components/Receta'
+import Nuevareceta from './components/Nuevareceta'
 YellowBox.ignoreWarnings(['Setting a timer']);
 
 const _console = _.clone(console);
@@ -28,9 +29,10 @@ render(){
 			    <Stack key="root" hideNavBar={true}>
             <Scene key="login" component={Login} title="Iniciar sesión" initial={true}/>
             <Scene key="register" component={Register} title="Registro" />
-            <Scene key="profile" component={Profile} title="Perfil de usuario" />
-            <Scene key="recetas" component={Recetas} title="Recetas"  />
+            <Scene key="profile" component={Profile} title="Perfil de usuario" hideNavBar={false} />
+            <Scene key="recetas" component={Recetas} title="Recetas" />
             <Scene key="receta" component={Receta} title="Receta"  />
+            <Scene key="nuevareceta" component={Nuevareceta} title="Agregar Receta"  hideNavBar={false}/>
 			    </Stack>
 			 </Router>
     </Root>
