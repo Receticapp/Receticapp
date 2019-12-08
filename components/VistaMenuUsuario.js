@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Alert, KeyboardAvoidingView, ScrollView  } from 'react-native';
+import { StyleSheet, View, Alert, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { Text, Block, Button } from 'galio-framework';
 import { Avatar } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import axios from 'axios';
+import backurl from '../backurl';
 
 export default class VistaMenuUsuario extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            imagen: ""
+        }
+    }
     LogOut = () => {
         firebase.auth().signOut()
-        .then(result => { Alert.alert("Deslogeado correctamente"); Actions.LoginUsuarioOTienda();})
-        .catch(error => { Alert.alert("Error Deslogeando"); console.log(error) })
+            .then(result => { Alert.alert("Deslogeado correctamente"); Actions.LoginUsuarioOTienda(); })
+            .catch(error => { Alert.alert("Error Deslogeando"); console.log(error) })
+    }
+    componentDidMount() {
+        axios.get(backurl + "users/" + global.gid).then(result => { global.user = result.data; this.setState({ imagen: "2" }) })
     }
     render() {
         return (

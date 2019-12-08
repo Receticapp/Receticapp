@@ -22,13 +22,17 @@ import ActualizarDatosReceta from './components/ActualizarDatosReceta';
 import VistaMisOrdenesTienda from './components/VistaMisOrdenesTienda';
 import VistaVerOrdenTienda from './components/VistaVerOrdenTienda';
 import VistaNuevaReceta from './components/VistaNuevaReceta';
+import ActualizarImagenUsuario from './components/ActualizarImagenUsuario';
+import ActualizarImagenReceta from './components/ActualizarImagenReceta';
+import ActualizarImagenTienda from './components/ActualizarImagenTienda';
+import NuevaImagenReceta from './components/NuevaImagenReceta';
 
 var firebaseConfig = {
   apiKey: "AIzaSyDLgyR0M7Qk_rG6JiX3v7Qn5ZPSWURSIi8",
   authDomain: "recetiapp.firebaseapp.com",
   databaseURL: "https://recetiapp.firebaseio.com",
   projectId: "recetiapp",
-  storageBucket: "",
+  storageBucket: "recetiapp.appspot.com",
   messagingSenderId: "593389944464",
   appId: "1:593389944464:web:4d7ddc30493d8586772215",
   measurementId: "G-E39PNC4FC8"
@@ -62,6 +66,10 @@ export default class App extends Component {
             <Scene key="VistaMisOrdenesTienda" component={VistaMisOrdenesTienda} title="Mis Ordenes" />
             <Scene key="VistaVerOrdenTienda" component={VistaVerOrdenTienda} title="Orden" />
             <Scene key="VistaNuevaReceta" component={VistaNuevaReceta} title="Nueva Receta" />
+            <Scene key="ActualizarImagenUsuario" component={ActualizarImagenUsuario} title="Actualizar imagen" />
+            <Scene key="ActualizarImagenReceta" component={ActualizarImagenReceta} title="Actualizar imagen" />
+            <Scene key="ActualizarImagenTienda" component={ActualizarImagenTienda} title="Actualizar imagen" />
+            <Scene key="NuevaImagenReceta" component={NuevaImagenReceta} title="Actualizar imagen" />
           </Stack>
         </Router>
       </Root>
