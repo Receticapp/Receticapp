@@ -13,7 +13,7 @@ export default class VistaOrdenarRecetaUsuario extends Component {
             isDateTimePickerVisible: false,
             date: null,
             otra_direccion: true,
-            cantidad_porciones: 1,
+            cantidad_porciones: 0,
             direccion_entrega: "",
         };
     }
@@ -27,23 +27,27 @@ export default class VistaOrdenarRecetaUsuario extends Component {
         this.setState({ date: date });
         this.hideDateTimePicker();
     };
-    GenerarOrden = (fecha_entrega,costo_total,direccion_entrega,estado,calificacion_usuario,calificacion_tienda,cantidad,user_id,store_id,recipe_id) => {
-        const parametros_orden = {
-            fecha_entrega: fecha_entrega,
-            costo_total: costo_total,
-            direccion_entrega: direccion_entrega,
-            estado: estado,
-            calificacion_usuario: calificacion_usuario,
-            calificacion_tienda: calificacion_tienda,
-            cantidad: cantidad,
-            user_id: user_id,
-            store_id: store_id,
-            recipe_id: recipe_id
+    GenerarOrden = (fecha_entrega, costo_total, direccion_entrega, estado, calificacion_usuario, calificacion_tienda, cantidad, user_id, store_id, recipe_id) => {
+        if (cantidad == 0 || direccion_entrega == "" || direccion_entrega == null || fecha_entrega == null) {
+            Alert.alert("Faltan Campos por llenar")
+        } else {
+            const parametros_orden = {
+                fecha_entrega: fecha_entrega,
+                costo_total: costo_total,
+                direccion_entrega: direccion_entrega,
+                estado: estado,
+                calificacion_usuario: calificacion_usuario,
+                calificacion_tienda: calificacion_tienda,
+                cantidad: cantidad,
+                user_id: user_id,
+                store_id: store_id,
+                recipe_id: recipe_id
+            }
+            axios.post(backurl + "orders", parametros_orden).then(result => {
+                Alert.alert("Orden realizada exitosamente");
+                Actions.VistaMenuUsuario();
+            }).catch(error => { console.log(error) })
         }
-        axios.post(backurl + "orders", parametros_orden).then(result => {
-            Alert.alert("Orden realizada exitosamente");
-            Actions.VistaMenuUsuario();
-        }).catch(error => { console.log(error) })
     }
     render() {
         if (this.state.otra_direccion) {

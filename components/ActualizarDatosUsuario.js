@@ -17,12 +17,18 @@ export default class ActualizarDatosUsuario extends Component {
             telefono: "",
         };
     }
-    ActualizarDatosUsuario = (google_id, nombre, direccion, imagen, telefono) => {
-        const nueva_informacion_usuario = {
-            nombre: nombre,
-            direccion: direccion,
-            imagen: imagen,
-            telefono: telefono
+    ActualizarDatosUsuario = (google_id, nombre, direccion, telefono) => {
+        const column_names_values = [
+            { name: "nombre", value: nombre },
+            { name: "direccion", value: direccion },
+            { name: "telefono", value: telefono }];
+        let nueva_informacion_usuario = {}
+        for (let i = 0; i < column_names_values.length; i++) {
+            let name = column_names_values[i].name
+            let value_n = column_names_values[i].value
+            if (column_names_values[i].value !== '') {
+                nueva_informacion_usuario[name] = value_n
+            }
         }
         axios.patch(backurl + "users/" + google_id, nueva_informacion_usuario)
             .then(result => { global.user = result.data; Alert.alert("Datos actualizados correctamente"); Actions.VistaMenuUsuario(); })
@@ -40,15 +46,21 @@ export default class ActualizarDatosUsuario extends Component {
                 />
                 <Input placeholder="Nombre" type='default' onChangeText={nombre => this.setState({ nombre })} />
                 <Input placeholder="Direccion" type='default' onChangeText={direccion => this.setState({ direccion })} />
-                <Input placeholder="Imagen" type='default' onChangeText={imagen => this.setState({ imagen })} />
                 <Input placeholder="Telefono" type='default' onChangeText={telefono => this.setState({ telefono })} />
 
                 <Button
                     radius={200}
                     shadowless={true}
                     style={{ backgroundColor: '#F59D2D', marginTop: 10 }}
-                    onPress={() => this.ActualizarDatosUsuario(global.gid, this.state.nombre, this.state.direccion, this.state.imagen, this.state.telefono)}>
+                    onPress={() => this.ActualizarDatosUsuario(global.gid, this.state.nombre, this.state.direccion, this.state.telefono)}>
                     Actualizar mis Datos
+                </Button>
+                <Button
+                    radius={200}
+                    shadowless={true}
+                    style={{ backgroundColor: '#F59D2D', marginTop: 10 }}
+                    onPress={() => Actions.ActualizarImagenUsuario({ url: backurl + "users/" + global.gid })}>
+                    Actualizar Imagen
                 </Button>
             </View>
         );

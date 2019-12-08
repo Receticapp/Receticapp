@@ -20,7 +20,7 @@ export default class RegistroUsuarioOTienda extends Component {
         };
     }
 
-    SignUp = (registro_nombre, registro_correo, registro_password,tienda) => {
+    SignUp = (registro_nombre, registro_correo, registro_password, tienda) => {
         firebase.auth().createUserWithEmailAndPassword(registro_correo, registro_password)
             .then(result => {
                 Alert.alert("Usuario Registrado correctamente");
@@ -31,17 +31,17 @@ export default class RegistroUsuarioOTienda extends Component {
                     correo: registro_correo,
                     imagen: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                 }
-                if(tienda){
+                if (tienda) {
                     axios.post(backurl + "stores", user_info)
-                    .then(result => { global.user = result.data; Actions.VistaMenuTienda() })
-                    .catch(error => { console.log("Error registrando datos de usuario en Back"); console.log(error); })
-                }else{
+                        .then(result => { global.user = result.data; Actions.VistaMenuTienda() })
+                        .catch(error => { console.log("Error registrando datos de usuario en Back"); console.log(error); })
+                } else {
                     axios.post(backurl + "users", user_info)
-                    .then(result => { global.user = result.data; Actions.VistaMenuUsuario() })
-                    .catch(error => { console.log("Error registrando datos de usuario en Back"); console.log(error); })
-                }     
+                        .then(result => { global.user = result.data; Actions.VistaMenuUsuario() })
+                        .catch(error => { console.log("Error registrando datos de usuario en Back"); console.log(error); })
+                }
             })
-            .catch(error => {console.log("Error Registrando en Firebase"); console.log(error); });
+            .catch(error => { console.log("Error Registrando en Firebase"); console.log(error); });
     };
 
     render() {
