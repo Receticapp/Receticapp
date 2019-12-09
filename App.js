@@ -26,7 +26,8 @@ import ActualizarImagenUsuario from './components/ActualizarImagenUsuario';
 import ActualizarImagenReceta from './components/ActualizarImagenReceta';
 import ActualizarImagenTienda from './components/ActualizarImagenTienda';
 import NuevaImagenReceta from './components/NuevaImagenReceta';
-
+import UbicacionMapa from './components/UbicacionMapa';
+import VerUbicacion from './components/VerUbicacion';
 var firebaseConfig = {
   apiKey: "AIzaSyDLgyR0M7Qk_rG6JiX3v7Qn5ZPSWURSIi8",
   authDomain: "recetiapp.firebaseapp.com",
@@ -70,6 +71,8 @@ export default class App extends Component {
             <Scene key="ActualizarImagenReceta" component={ActualizarImagenReceta} title="Actualizar imagen" />
             <Scene key="ActualizarImagenTienda" component={ActualizarImagenTienda} title="Actualizar imagen" />
             <Scene key="NuevaImagenReceta" component={NuevaImagenReceta} title="Actualizar imagen" />
+            <Scene key="UbicacionMapa" component={UbicacionMapa} title="Actualizar Ubicacion" />
+            <Scene key="VerUbicacion" component={VerUbicacion} title="Ver Ubicacion" />
           </Stack>
         </Router>
       </Root>

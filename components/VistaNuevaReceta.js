@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Alert } from 'react-native';
-import { Text, Input, Button, Block } from 'galio-framework';
+import { View, StyleSheet, Image, Alert, TextInput  } from 'react-native';
+import {Textarea, Form } from 'native-base';
+import { Input, Button } from 'galio-framework';
 import logo from '../assets/logo.png';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
@@ -41,7 +42,6 @@ export default class VistaNuevaReceta extends Component {
     }
 
     render() {
-        console.log(global.temp)
         return (
             <View style={styles.container}>
                 <Image
@@ -50,7 +50,8 @@ export default class VistaNuevaReceta extends Component {
                 />
                 <Input placeholder="Nombre" type='default' onChangeText={nombre => this.setState({ nombre })} />
                 <Input placeholder="Descripcion" type='default' onChangeText={descripcion => this.setState({ descripcion })} />
-                <Input placeholder="Ingredientes" type='default' onChangeText={ingredientes => this.setState({ ingredientes })} />
+                <Input placeholder="Ingredientes" style={{height:150, textAlign: 'left',justifyContent: 'flex-start',alignItems:'flex-start'}} type='default' onChangeText={ingredientes => this.setState({ ingredientes })} />
+              
                 <Input placeholder="Precio unitario" type='default' onChangeText={precio => this.setState({ precio })} />
                 <Input placeholder="Stock" type='default' onChangeText={stock => this.setState({ stock })} />
                 <Button

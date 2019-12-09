@@ -21,7 +21,8 @@ export default class RegistroUsuarioOTienda extends Component {
     }
 
     SignUp = (registro_nombre, registro_correo, registro_password, tienda) => {
-        firebase.auth().createUserWithEmailAndPassword(registro_correo, registro_password)
+        if(registro_nombre!=""&&registro_correo!=""&&registro_password!=""){
+            firebase.auth().createUserWithEmailAndPassword(registro_correo, registro_password)
             .then(result => {
                 Alert.alert("Usuario Registrado correctamente");
                 global.gid = result.user.uid;
@@ -42,6 +43,10 @@ export default class RegistroUsuarioOTienda extends Component {
                 }
             })
             .catch(error => { console.log("Error Registrando en Firebase"); console.log(error); });
+        }else{
+            Alert.alert("Faltan Datos por llenar");
+        }
+        
     };
 
     render() {
@@ -82,9 +87,9 @@ export default class RegistroUsuarioOTienda extends Component {
                     </Block>
                 </KeyboardAvoidingView>
                 <View >
-                    <Text h5 color='white' bold={true} italic={true} onPress={() => {
+                    <Text h5 color='white' bold={true} italic={true} style={{margin:10}}  onPress={() => {
                         Actions.LoginUsuarioOTienda()
-                    }}>Ya te encuentras registrado?</Text>
+                    }}>Ya te encuentras registrado? Oprime aqui!</Text>
                 </View>
             </View>
         );
