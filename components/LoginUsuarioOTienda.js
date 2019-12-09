@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Alert, KeyboardAvoidingView } from 'react-native';
-import { Text, Input, Block, Button, Checkbox } from 'galio-framework';
+import { Text, Input, Block, Button } from 'galio-framework';
 import { Image } from 'react-native-elements';
 import logo from '../assets/logo.png';
 import * as firebase from 'firebase/app';
@@ -20,20 +20,35 @@ export default class LoginUsuarioTienda extends Component {
     }
 
     Login = (login_correo, login_password, tienda) => {
-        firebase.auth().signInWithEmailAndPassword(login_correo, login_password).then(result => {
-            global.gid = result.user.uid;
-            if (tienda) {
-                axios.get(backurl + "stores/" + result.user.uid)
-                    .then(result => { global.user = result.data; Actions.VistaMenuTienda() })
-                    .catch(error => { Alert.alert("Error obteniendo datos de usuario en Back"); console.log(error); })
-            } else {
-                axios.get(backurl + "users/" + result.user.uid)
-                    .then(result => { global.user = result.data; Actions.VistaMenuUsuario() })
-                    .catch(error => { Alert.alert("Error obteniendo datos de usuario en Back"); console.log(error); })
-            }
-        }).catch(error => {
-            Alert.alert("Error en Login Firebase"); console.log(error);
-        });
+        if(login_correo!=""&&login_password!=""){
+            firebase.auth().signInWithEmailAndPassword(login_correo, login_password).then(result => {
+                global.gid = result.user.uid;
+                if (result.user) {
+                    global.gid = result.user.uid;
+                    axios.get(backurl + "users/" + result.user.uid)
+                        .then(res => {
+                            if (res.data) {
+                                global.user = res.data;
+                                Actions.VistaMenuUsuario();
+                                console.log("Con usuario Logeado");
+                            }
+                        });
+                    axios.get(backurl + "stores/" + result.user.uid)
+                        .then(res => {
+                            if (res.data) {
+                                global.user = res.data;
+                                Actions.VistaMenuTienda();
+                                console.log("Con tienda Logeada");
+                            }
+                        });
+                    }
+            }).catch(error => {
+                Alert.alert("Datos erroneos"); console.log(error);
+            });
+        }else{
+            Alert.alert("Faltan Datos por llenar");
+        }
+       
     };
 
     componentDidMount() {
@@ -77,15 +92,6 @@ export default class LoginUsuarioTienda extends Component {
                         <Input placeholder="Contraseña" password={true}
                             onChangeText={login_password => this.setState({ login_password })} />
                         <View style={{ padding: 15 }}>
-                            <Checkbox color="warning" label="Ingresar como Tienda"
-                                labelStyle={{ color: 'white' }}
-                                onChange={() => {
-                                    if (this.state.tienda) {
-                                        this.setState({ tienda: false });
-                                    } else {
-                                        this.setState({ tienda: true });
-                                    }
-                                }} />
                         </View>
                         <Button radius={200} shadowless={true} style={{ backgroundColor: '#F59D2D', }}
                             onPress={() => this.Login(
@@ -95,7 +101,7 @@ export default class LoginUsuarioTienda extends Component {
                     </Block>
                 </KeyboardAvoidingView>
                 <View >
-                    <Text h5 color='white' bold={true} italic={true} onPress={() => { Actions.RegistroUsuarioOTienda() }}>Aun no estas registrado?</Text>
+                    <Text h5 color='white' bold={true} italic={true} style={{margin:10}} onPress={() => { Actions.RegistroUsuarioOTienda() }}>Aun no estas registrado? Oprime aqui!</Text>
                 </View>
             </View>
         );

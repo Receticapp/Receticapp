@@ -11,7 +11,6 @@ export default class VistaDatosTienda extends Component {
             <View style={styles.container}>
                 <Text style={{ fontFamily: 'sans-serif-medium', color: 'white' }} h2>Bienvenido</Text>
                 <Avatar size="xlarge" rounded source={{ uri: global.user.imagen }} />
-                <Text style={{ fontFamily: 'sans-serif-medium', color: 'white', marginTop: 5 }} h5>{global.user.nombre}</Text>
                 <KeyboardAvoidingView behavior="padding" enabled>
                     <Block style={{ margin: 25 }}>
                         <CardItem style={{ margin: 10 }}>
@@ -34,11 +33,14 @@ export default class VistaDatosTienda extends Component {
                                 <Text h6 color='black' >Telefono: {global.user.telefono}</Text>
                             </Body>
                         </CardItem>
-                        <CardItem style={{ margin: 10 }}>
-                            <Body>
-                                <Text h6 color='black' >Saldo: $ {global.user.saldo}</Text>
-                            </Body>
-                        </CardItem>
+                        <Button radius={200} shadowless={true} style={{ backgroundColor: '#F59D2D', margin: 10 }}
+                            onPress={() => {
+                                if (global.user.latitude != null) {
+                                    Actions.VerUbicacion({latitude: global.user.latitude,longitude: global.user.longitude});
+                                }else{
+                                    Alert.alert("Sin Ubicación seleccionada");
+                                }
+                            }}>Ver mi ubicación seleccionada</Button>
                         <Button radius={200} shadowless={true} style={{ backgroundColor: '#F59D2D', margin: 10 }}
                             onPress={() => { Actions.ActualizarDatosTienda(); }}>Actualizar mis datos personales</Button>
                     </Block>

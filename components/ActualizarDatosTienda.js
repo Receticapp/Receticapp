@@ -62,6 +62,13 @@ export default class ActualizarDatosTienda extends Component {
                     onPress={() => Actions.ActualizarImagenTienda({ url: backurl + "stores/" + global.gid })}>
                     Actualizar Imagen
                 </Button>
+                <Button
+                    radius={200}
+                    shadowless={true}
+                    style={{ backgroundColor: '#F59D2D', marginTop: 10 }}
+                    onPress={() => Actions.UbicacionMapa({ url: backurl + "stores/" + global.gid,tipo_peticion: 1,tipo_usuario: 2})}>
+                    Actualizar Ubicación
+                </Button>
             </View>
         );
     }

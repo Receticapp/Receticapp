@@ -142,7 +142,8 @@ export default class ActualizarImagenUsuario extends React.Component {
   _takePhoto = async () => {
     let pickerResult = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [4, 4],
+      quality: 0.2
     });
 
     this._handleImagePicked(pickerResult);
@@ -151,7 +152,8 @@ export default class ActualizarImagenUsuario extends React.Component {
   _pickImage = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [4, 4],
+      quality: 0.2
     });
 
     this._handleImagePicked(pickerResult);

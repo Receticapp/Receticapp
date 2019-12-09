@@ -24,8 +24,8 @@ export default class VistaMisOrdenesTienda extends Component {
                             <ListItem
                                 key={i}
                                 leftAvatar={{ source: { uri: orden.recipe.imagen } }}
-                                title={orden.recipe.nombre}
-                                subtitle={orden.fecha_entrega}
+                                title={"Orden de: "+orden.user.nombre}
+                                subtitle={"N° de Orden: "+orden.id}
                                 bottomDivider
                             />
                         </TouchableOpacity>

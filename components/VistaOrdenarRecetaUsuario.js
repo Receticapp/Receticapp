@@ -17,6 +17,13 @@ export default class VistaOrdenarRecetaUsuario extends Component {
             direccion_entrega: "",
         };
     }
+    componentDidMount(){
+        const parametros = {
+            latitude: null,
+            longitude: null
+        }
+        global.temp = parametros;
+    }
     showDateTimePicker = () => {
         this.setState({ isDateTimePickerVisible: true });
     };
@@ -27,8 +34,8 @@ export default class VistaOrdenarRecetaUsuario extends Component {
         this.setState({ date: date });
         this.hideDateTimePicker();
     };
-    GenerarOrden = (fecha_entrega, costo_total, direccion_entrega, estado, calificacion_usuario, calificacion_tienda, cantidad, user_id, store_id, recipe_id) => {
-        if (cantidad == 0 || direccion_entrega == "" || direccion_entrega == null || fecha_entrega == null) {
+    GenerarOrden = (fecha_entrega, costo_total, direccion_entrega, estado, calificacion_usuario, calificacion_tienda, cantidad, user_id, store_id, recipe_id,latitude,longitude) => {
+        if (cantidad == 0 || direccion_entrega == "" || direccion_entrega == null || fecha_entrega == null ||  latitude == null|| longitude == null) {
             Alert.alert("Faltan Campos por llenar")
         } else {
             const parametros_orden = {
@@ -41,7 +48,9 @@ export default class VistaOrdenarRecetaUsuario extends Component {
                 cantidad: cantidad,
                 user_id: user_id,
                 store_id: store_id,
-                recipe_id: recipe_id
+                recipe_id: recipe_id,
+                latitude:latitude,
+                longitude:longitude
             }
             axios.post(backurl + "orders", parametros_orden).then(result => {
                 Alert.alert("Orden realizada exitosamente");
@@ -50,7 +59,6 @@ export default class VistaOrdenarRecetaUsuario extends Component {
         }
     }
     render() {
-        if (this.state.otra_direccion) {
             return (
                 <View style={styles.container}>
                     <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>Ordenando:</Text>
@@ -58,65 +66,21 @@ export default class VistaOrdenarRecetaUsuario extends Component {
                     <Image style={styles.imageDesing} source={{ uri: this.props.receta.imagen }} />
                     <Text style={{ color: 'white', fontSize: 20, textAlign: 'justify' }}>Tienda: {this.props.receta.store.nombre}</Text>
                     <Text style={{ color: 'white', fontSize: 20, textAlign: 'justify' }}>Dirección de Tienda: {this.props.receta.store.direccion}</Text>
+                    <Button radius={200} shadowless={true} style={{ backgroundColor: '#F59D2D', margin: 10 }}
+                            onPress={() => {
+                                if (global.user.latitude != null) {
+                                    Actions.VerUbicacion({latitude: this.props.receta.store.latitude,longitude: this.props.receta.store.longitude});
+                                }else{
+                                    Alert.alert("Sin Ubicación seleccionada");
+                                }
+                            }}>Ver ubicación de tienda</Button>
                     <Input placeholder="Cantidad de Porciones" style={{ width: 200 }} type='default' onChangeText={
                         cantidad_porciones => this.setState({ cantidad_porciones })} />
-                    <Checkbox color="warning" label="Usar otra dirección diferente a la de domicilio"
-                        labelStyle={{ color: 'white' }}
-                        onChange={() => {
-                            if (this.state.otra_direccion) {
-                                this.setState({ otra_direccion: false });
-                            } else {
-                                this.setState({ otra_direccion: true });
-                            }
-                        }} />
-                    <Input placeholder="Dirección de entrega" style={{ width: 200 }} type='default' onChangeText={
-                        direccion_entrega => this.setState({ direccion_entrega })} />
-                    <Button radius={200} shadowless={true} style={{ backgroundColor: '#F59D2D', marginTop: 10 }}
-                        onPress={this.showDateTimePicker}
-                    >Seleccionar Fecha y Hora de entrega</Button>
-                    <DateTimePicker
-                        minDate={new Date(Date.now() + (10 * 60 * 1000))}
-                        mode='datetime'
-                        isVisible={this.state.isDateTimePickerVisible}
-                        onConfirm={this.handleDatePicked}
-                        onCancel={this.hideDateTimePicker}
-                    />
-                    <Button radius={200} shadowless={true} style={{ backgroundColor: '#F59D2D', marginTop: 10 }}
-                        onPress={() => {
-                            this.GenerarOrden(
-                                this.state.date,
-                                this.props.receta.precio_unitario * this.state.cantidad_porciones,
-                                this.state.direccion_entrega,
-                                "Sin despachar",
-                                0,
-                                0,
-                                this.state.cantidad_porciones,
-                                global.user.id,
-                                this.props.receta.store.id,
-                                this.props.receta.id)
-                        }}
-                    >Realizar Orden</Button>
-                </View>
-            );
-        } else {
-            return (
-                <View style={styles.container}>
-                    <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>Ordenando:</Text>
-                    <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>{this.props.receta.nombre}</Text>
-                    <Image style={styles.imageDesing} source={{ uri: this.props.receta.imagen }} />
-                    <Text style={{ color: 'white', fontSize: 20, textAlign: 'justify' }}>Tienda: {this.props.receta.store.nombre}</Text>
-                    <Text style={{ color: 'white', fontSize: 20, textAlign: 'justify' }}>Dirección de Tienda: {this.props.receta.store.direccion}</Text>
-                    <Input placeholder="Cantidad de Porciones" style={{ width: 200 }} type='default' onChangeText={
-                        cantidad_porciones => this.setState({ cantidad_porciones })} />
-                    <Checkbox color="warning" label="Usar otra dirección diferente a la de domicilio"
-                        labelStyle={{ color: 'white' }}
-                        onChange={() => {
-                            if (this.state.otra_direccion) {
-                                this.setState({ otra_direccion: false });
-                            } else {
-                                this.setState({ otra_direccion: true });
-                            }
-                        }} />
+                    
+                     <Button radius={200} shadowless={true} style={{ backgroundColor: '#F59D2D', marginTop: 10 }}
+                     onPress={ () => {Actions.UbicacionMapa({tipo_peticion: 2})}}
+                 >Seleccionar ubicación de Entrega</Button>
+                        
                     <Button radius={200} shadowless={true} style={{ backgroundColor: '#F59D2D', marginTop: 10 }}
                         onPress={this.showDateTimePicker}
                     >Seleccionar Fecha y Hora de entrega</Button>
@@ -139,12 +103,13 @@ export default class VistaOrdenarRecetaUsuario extends Component {
                                 this.state.cantidad_porciones,
                                 global.user.id,
                                 this.props.receta.store.id,
-                                this.props.receta.id)
+                                this.props.receta.id,
+                                global.temp.latitude,
+                                global.temp.longitude)
                         }}
                     >Realizar Orden</Button>
                 </View>
             );
-        }
     }
 }
 
@@ -157,8 +122,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     imageDesing: {
-        width: 300,
-        height: 300,
+        width: 200,
+        height: 200,
         borderRadius: 25,
         borderColor: 'yellow',
         borderWidth: 5

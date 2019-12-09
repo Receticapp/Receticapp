@@ -62,6 +62,13 @@ export default class ActualizarDatosUsuario extends Component {
                     onPress={() => Actions.ActualizarImagenUsuario({ url: backurl + "users/" + global.gid })}>
                     Actualizar Imagen
                 </Button>
+                <Button
+                    radius={200}
+                    shadowless={true}
+                    style={{ backgroundColor: '#F59D2D', marginTop: 10 }}
+                    onPress={() => Actions.UbicacionMapa({ url: backurl + "users/" + global.gid,tipo_peticion: 1,tipo_usuario: 1})}>
+                    Actualizar Ubicación
+                </Button>
             </View>
         );
     }
